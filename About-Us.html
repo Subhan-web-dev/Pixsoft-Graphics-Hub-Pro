@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Pixsoft Graphics Hub</title>
+    <link rel="stylesheet" href="About-Us.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+    
+    <!-- Navbar (loaded via fetch) -->
+    <div id="navbar-container"></div>
+
+    <script>
+        function initNavbar() {
+            console.log("Navbar Loaded!");
+
+            // Elements
+            const navbar = document.getElementById('navbar');
+            const hamburgerBtn = document.getElementById('hamburgerBtn');
+            const closeBtn = document.getElementById('closeBtn');
+            const mobileSidebar = document.getElementById('mobileSidebar');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+            let lastScrollTop = 0;
+
+            // Smart Sticky Navbar (Hides on Scroll Down, Shows on Scroll Up)
+            window.addEventListener('scroll', function () {
+                let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+                if (scrollTop > 10) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+
+                if (scrollTop > lastScrollTop && scrollTop > 100) {
+                    navbar.style.transform = 'translateY(-100%)';
+                } else {
+                    navbar.style.transform = 'translateY(0)';
+                }
+
+                lastScrollTop = scrollTop;
+            });
+
+            // Toggle Sidebar Function
+            function toggleSidebar() {
+                console.log("Toggling Sidebar!");
+                mobileSidebar.classList.toggle('active');
+                sidebarOverlay.classList.toggle('active');
+
+                if (mobileSidebar.classList.contains('active')) {
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    document.body.style.overflow = '';
+                }
+            }
+
+            // Attach Event Listeners
+            if (hamburgerBtn) {
+                hamburgerBtn.addEventListener('click', function () {
+                    console.log("Hamburger Clicked!");
+                    toggleSidebar();
+                });
+            }
+
+            if (closeBtn) {
+                closeBtn.addEventListener('click', function () {
+                    console.log("Close Button Clicked!");
+                    toggleSidebar();
+                });
+            }
+
+            if (sidebarOverlay) {
+                sidebarOverlay.addEventListener('click', function () {
+                    console.log("Overlay Clicked!");
+                    toggleSidebar();
+                });
+            }
+
+            // Close sidebar when clicking a menu item
+            document.querySelectorAll('.mobile-nav a').forEach(link => {
+                link.addEventListener('click', function () {
+                    console.log("Sidebar Link Clicked!");
+                    toggleSidebar();
+                });
+            });
+
+            // Close sidebar on window resize (if resized to desktop)
+            window.addEventListener('resize', function () {
+                if (window.innerWidth > 768 && mobileSidebar.classList.contains('active')) {
+                    toggleSidebar();
+                }
+            });
+        }
+
+        // Load Navbar and then Initialize it
+        fetch('navbar.php')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("navbar-container").innerHTML = data;
+                setTimeout(() => {
+                    initNavbar();  // Call the function after navbar is loaded
+                }, 500);
+            })
+            .catch(error => console.error("Error loading navbar:", error));
+    </script>
+
+    <!-- Navbar (loaded via fetch) -->
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>About <span class="highlight">Us</span></h1>
+                    <h2>Web & <span class="highlight">Design Studio</span></h2>
+                    <p>Founded in 2015, PIXSOFT GRAPHICS HUB began with a mission to bridge the gap between creativity and quality in the design and printing industry. What started as a small team with big ideas has now grown into a full-fledged creative powerhouse catering to clients worldwide.</p>
+                    <a href="contact-me.html"><button class="btn-primary">Get in Touch!</button></a>
+                </div>
+                <div class="hero-image">
+                    <img src="About-us-images/img 2.jpg" alt="Pixsoft Team">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission & Values Section -->
+    <section class="mission-values">
+        <div class="container">
+            <h2 class="section-title">Our <span class="highlight">Objectives</span> & Principles</h2>
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-icon">
+                        <img src="About-us-images/icons img3.jpg" alt="Mission">
+                    </div>
+                    <h3>Our Mission</h3>
+                    <p>To empower businesses and individuals by transforming their ideas into impactful designs and tangible products that leave a lasting impression.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">
+                        <img src="About-us-images/icons img2.jpg" alt="Vision">
+                    </div>
+                    <h3>Our Vision</h3>
+                    <p>To be the most trusted and innovative design and printing partner, known for delivering excellence and value in every project.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">
+                        <img src="About-us-images/icons img4.jpg" alt="Values">
+                    </div>
+                    <h3>Our Core Values</h3>
+                    <ul class="values-list">
+                        <li>Creativity</li>
+                        <li>Quality Perfection</li>
+                        <li>Sustainability</li>
+                        <li>Customer-Centricity</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Company Info Section -->
+    <section class="company-info">
+        <div class="container">
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="card-number">01</div>
+                    <h3>Our Team</h3>
+                    <p>Our team of talented designers, printing specialists, and project managers work together to ensure your vision is realized. With backgrounds in graphic design, marketing, and technology, we bring a wealth of expertise to every project.</p>
+                </div>
+                <div class="info-card">
+                    <div class="card-number">02</div>
+                    <h3>Certifications & Partnerships</h3>
+                    <ul>
+                        <li>ISO 14001 Certification: Reflecting our commitment to sustainable practices</li>
+                        <li>Partnerships with industry leaders in design software, paper manufacturers, and printing technologies</li>
+                        <li>Recognition: "Creative Excellence Award 2022" by the National Graphics Association</li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <div class="card-number">03</div>
+                    <h3>Why Choose Us?</h3>
+                    <ul>
+                        <li>Customized Solutions tailored to your needs</li>
+                        <li>Cutting-Edge Technology in design and printing</li>
+                        <li>Exceptional Support throughout your project</li>
+                        <li>Proven Track Record with 5,000+ successful projects</li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <div class="card-number">04</div>
+                    <h3>Our Story</h3>
+                    <p>At Pixsoft Graphics Hub, we believe that creativity is the heart of every successful brand. Founded in 2015, our journey began with a passion for blending innovative design with technology to deliver impactful digital solutions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (loaded via jQuery) -->
+    <div id="footer-content"></div>
+
+    <script>
+        //footer
+        $('#footer-content').load('footer.html');
+
+        // Page transition
+        document.addEventListener("DOMContentLoaded", function() {
+            document.body.classList.add("loaded");
+        });
+    </script>
+</body>
+</html>
+

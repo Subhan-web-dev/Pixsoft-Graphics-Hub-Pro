@@ -1,0 +1,389 @@
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: poppins;
+        }
+
+        body {
+            background-color: #101010;
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+
+        body::-webkit-scrollbar {
+            display: none;
+        }
+
+        body {
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        body.loaded {
+            opacity: 1;
+        }
+
+
+        :root {
+            --primary-color: #c70049;
+            --sidebar-bg: #363636;
+            --hover-color: #101010;
+        }
+
+        .pix {
+            color: #c70049;
+            margin-right: 2px;
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+            margin-top: 45px;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            margin-top: 0;
+            width: 280px;
+            background: var(--sidebar-bg);
+            color: white;
+            padding: 20px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 20px 0;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.2rem;
+        }
+
+        .nav-menu {
+            margin-top: 20px;
+
+        }
+
+        .nav-item {
+            padding: 12px 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 6px;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-item:hover {
+            background: var(--hover-color);
+        }
+
+        .nav-item.active {
+            background: var(--primary-color);
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 20px;
+            background: #101010;
+        }
+
+        .header {
+            background: #363636;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            color: white;
+        }
+
+        .profile-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+        }
+
+        .profile-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #ddd;
+        }
+
+        /* Dashboard Stats */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: #363636;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card h3 {
+            color: white;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .stat-card p {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        /* Tables */
+        .table-container {
+            background: #363636;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            overflow-x: auto;
+        }
+
+        .table-container h2 {
+            color: white;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            color: white;
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th {
+            background: #363636;
+            font-weight: 600;
+            color: white;
+        }
+
+        /* Status badges */
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        .status-pending {
+            background: #fff7ed;
+            color: #c2410c;
+        }
+
+        .status-progress {
+            background: #ecfdf5;
+            color: #047857;
+        }
+
+        .status-completed {
+            background: #eff6ff;
+            color: #1d4ed8;
+        }
+
+        /* Charts */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .chart-container {
+            background: #363636;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Forms */
+        .form-container {
+            background: #363636;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-container h2 {
+            color: white;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: white;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            background-color: #101010;
+            color: white;
+        }
+
+        button {
+            background: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition:background 0.3s;
+        }
+
+        button:hover {
+            background: var(--hover-color);
+        }
+
+        .section {
+            display: none; /* Ensures all sections are hidden by default */
+        }
+        
+        .section.active {
+            display: block; /* Ensures only the active section is visible */
+        }
+        
+
+
+
+        /* 
+        .footer-end {
+            color: white;
+            font-size: 16px;
+            font-family: 'poppins';
+            padding-top: 10px;
+            padding-bottom: 10px;
+            background-color: #191919;
+            margin-top: 50px;
+            display: flex;
+            justify-content: center;
+        }
+        
+         */
+
+        /* Responsive  */
+
+        /* Responsive Styles for Admin Dashboard */
+        @media (max-width: 768px) {
+            .dashboard-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 10px;
+            }
+
+            .card {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .navbar .nav-links {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .navbar .nav-links li {
+                margin: 10px 0;
+            }
+        }
+
+        /* Responsive  */
+
+        /* Admins recent activities css */
+        #recent-orders-section {
+            width: 100%;
+            overflow: auto; /* Prevents layout breaking */
+        }
+        
+        #recentOrdersTable {
+            width: 100%;
+        }
+        
+        .table-container table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .table-container th, .table-container td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        /* Admins recent activities css */
+
+        /* Newsletter  */
+        .newsletter-admin {
+            background-color: #363636;
+            padding: 30px;
+            border-radius: 8px;
+        }
+
+        .newsletter-admin h2, p {
+            color: white;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .newsletter-admin a {
+            color: white;
+            background-color: #c70049;
+            padding: 10px;
+            border-radius: 4px;
+            text-decoration: none;
+            margin-top: 40px;
+        }
+        /* Newsletter  */

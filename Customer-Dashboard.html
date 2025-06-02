@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Dashboard - Pixsoft Graphics Hub</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="Customer-Dashboard.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+</head>
+
+<body>
+
+   <!-- navbar -->
+    <!-- Navbar (loaded via fetch) -->
+    <div id="navbar-container"></div>
+
+    <script>
+        function initNavbar() {
+            console.log("Navbar Loaded!");
+
+            // Elements
+            const navbar = document.getElementById('navbar');
+            const hamburgerBtn = document.getElementById('hamburgerBtn');
+            const closeBtn = document.getElementById('closeBtn');
+            const mobileSidebar = document.getElementById('mobileSidebar');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+            let lastScrollTop = 0;
+
+            // Smart Sticky Navbar (Hides on Scroll Down, Shows on Scroll Up)
+            // window.addEventListener('scroll', function () {
+            //     let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+            //     if (scrollTop > 10) {
+            //         navbar.classList.add('scrolled');
+            //     } else {
+            //         navbar.classList.remove('scrolled');
+            //     }
+
+            //     if (scrollTop > lastScrollTop && scrollTop > 100) {
+            //         navbar.style.transform = 'translateY(-100%)';
+            //     } else {
+            //         navbar.style.transform = 'translateY(0)';
+            //     }
+
+            //     lastScrollTop = scrollTop;
+            // });
+
+            // Toggle Sidebar Function
+            function toggleSidebar() {
+                console.log("Toggling Sidebar!");
+                mobileSidebar.classList.toggle('active');
+                sidebarOverlay.classList.toggle('active');
+
+                if (mobileSidebar.classList.contains('active')) {
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    document.body.style.overflow = '';
+                }
+            }
+
+            // Attach Event Listeners
+            if (hamburgerBtn) {
+                hamburgerBtn.addEventListener('click', function () {
+                    console.log("Hamburger Clicked!");
+                    toggleSidebar();
+                });
+            }
+
+            if (closeBtn) {
+                closeBtn.addEventListener('click', function () {
+                    console.log("Close Button Clicked!");
+                    toggleSidebar();
+                });
+            }
+
+            if (sidebarOverlay) {
+                sidebarOverlay.addEventListener('click', function () {
+                    console.log("Overlay Clicked!");
+                    toggleSidebar();
+                });
+            }
+
+            // Close sidebar when clicking a menu item
+            document.querySelectorAll('.mobile-nav a').forEach(link => {
+                link.addEventListener('click', function () {
+                    console.log("Sidebar Link Clicked!");
+                    toggleSidebar();
+                });
+            });
+
+            // Close sidebar on window resize (if resized to desktop)
+            window.addEventListener('resize', function () {
+                if (window.innerWidth > 768 && mobileSidebar.classList.contains('active')) {
+                    toggleSidebar();
+                }
+            });
+        }
+
+        // Load Navbar and then Initialize it
+        fetch('navbar.php')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("navbar-container").innerHTML = data;
+                setTimeout(() => {
+                    initNavbar();  // Call the function after navbar is loaded
+                }, 500);
+            })
+            .catch(error => console.error("Error loading navbar:", error));
+    </script>
+
+    <!-- Navbar (loaded via fetch) -->
+    <!-- navbar -->
+
+
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <h2>PIX<span style="color: #c70049;">S</span>OFT GRAPHICS HUB</h2>
+            </div>
+            <div class="nav-menu">
+                <div class="nav-item active" data-section="dashboard">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </div>
+                <div class="nav-item" data-section="profile">
+                    <i class="fas fa-user"></i>
+                    <span>Profile Management</span>
+                </div>
+                <!-- <div class="nav-item" data-section="services">
+                    <i class="fas fa-palette"></i>
+                    <span>Service Catalog</span>
+                </div>
+                <div class="nav-item" data-section="booking">
+                    <i class="fas fa-calendar"></i>
+                    <span>Book Services</span>
+                </div> -->
+                <div class="nav-item" data-section="history">
+                    <i class="fas fa-history"></i>
+                    <span>Service History</span>
+                </div>
+                <div class="nav-item" data-section="feedback">
+                    <i class="fas fa-comment"></i>
+                    <span>Feedback</span>
+                </div>
+                <div class="nav-item" data-section="support">
+                    <i class="fas fa-question-circle"></i>
+                    <span>FAQs</span>
+                </div>
+                <div class="nav-item" data-section="notifications">
+                    <i class="fas fa-bell"></i>
+                    <span>Notifications <span id="notification-badge" class="badge">0</span></span>
+                </div>
+                <div class="nav-item" data-section="password">
+                    <i class="fas fa-lock"></i>
+                    <span>Change Password</span>
+                </div>
+                <div class="nav-item" id="logout2">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </div>
+                <script>
+                    document.getElementById("logout2").addEventListener("click", function(event) {
+                        event.preventDefault(); // Prevent immediate redirect
+                
+                        // Show confirmation dialog
+                        let confirmLogout = confirm("Are you sure you want to log out?");
+                        
+                        if (confirmLogout) {
+                            window.location.href = "logout.php"; // Redirect if user confirms
+                        }
+                    });
+                </script>
+                
+                
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Dashboard Section -->
+            <div class="section active" id="dashboard">
+                <!-- Welcome User Dynamic Name  -->
+                <h2>Welcome back, <span id="customer-name"></span>!</h2>
+                <!-- script for welcome user dynamic name  -->
+                <script>
+                    $(document).ready(function () {
+                        $.ajax({
+                            url: "get_customer_name.php",
+                            method: "GET",
+                            dataType: "json",
+                            success: function (response) {
+                                if (response.status === "success") {
+                                    $("#customer-name").text(response.name);
+                                } else {
+                                    $("#customer-name").text("Customer");
+                                }
+                            },
+                            error: function () {
+                                $("#customer-name").text("Customer");
+                                console.error("Error fetching customer name.");
+                            }
+                        });
+                    });
+                </script>
+
+                <!-- script for welcome user dynamic name  -->
+                <!-- Welcome User Dynamic Name  -->
+
+                <div class="dashboard-grid">
+
+                    <!-- active orders  -->
+                    <div class="stat-card">
+                        <h3>Active Orders</h3>
+                        <div class="stat-value">5</div>
+                        <p>Projects in progress</p>
+                    </div>
+
+                    <!-- ajax for active projects -->
+                    <script>
+                        function loadCustomerActiveOrders() {
+                            $.ajax({
+                                url: "get_customer_active_orders.php",
+                                method: "GET",
+                                dataType: "json",
+                                success: function (response) {
+                                    if (response.status === "success") {
+                                        $(".stat-card h3:contains('Active Orders')").next(".stat-value").text(response.total);
+                                    } else {
+                                        console.error("Error fetching data:", response.message);
+                                    }
+                                },
+                                error: function () {
+                                    console.error("Error loading active orders.");
+                                }
+                            });
+                        }
+
+                        $(document).ready(function () {
+                            loadCustomerActiveOrders();
+                            setInterval(loadCustomerActiveOrders, 10000); // Auto-refresh every 10 seconds
+                        });
+                    </script>
+
+                    <!-- ajax for active projects -->
+
+                    <!-- active orders  -->
+
+                    <!-- Completed Orders -->
+
+                    <div class="stat-card">
+                        <h3>Completed Projects</h3>
+                        <div class="stat-value">23</div>
+                        <p>Successfully delivered</p>
+                    </div>
+
+                    <!-- ajax for completed Projects -->
+                    <script>
+                        function loadCustomerCompletedProjects() {
+                            $.ajax({
+                                url: "get_customer_completed_projects.php",
+                                method: "GET",
+                                dataType: "json",
+                                success: function (response) {
+                                    if (response.status === "success") {
+                                        $(".stat-card h3:contains('Completed Projects')").next(".stat-value").text(response.total);
+                                    } else {
+                                        console.error("Error fetching data:", response.message);
+                                    }
+                                },
+                                error: function () {
+                                    console.error("Error loading completed projects.");
+                                }
+                            });
+                        }
+
+                        $(document).ready(function () {
+                            loadCustomerCompletedProjects();
+                            setInterval(loadCustomerCompletedProjects, 10000); // Auto-refresh every 10 seconds
+                        });
+                    </script>
+
+                    <!-- ajax for completed Projects -->
+
+                    <!-- Completed Orders -->
+                    <!-- 
+                    <div class="stat-card">
+                        <h3>Total Spent</h3>
+                        <div class="stat-value">₹45,800</div>
+                        <p>Last 6 months</p>
+                    </div> -->
+
+                    <!-- Customers Unread Notification Div -->
+                    <div class="stat-card">
+                        <h3>Notifications</h3>
+                        <div class="stat-value" id="dashboard-notification-count">0</div>
+                        <p>Unread messages</p>
+                    </div>
+
+                    <!-- script for Customers Unread Notification Div -->
+                    <script>
+                        $(document).ready(function () {
+                            function loadUnreadNotificationCount() {
+                                $.ajax({
+                                    url: "fetch_status_notifications.php",
+                                    method: "GET",
+                                    dataType: "json",
+                                    success: function (response) {
+                                        if (response.status === "success") {
+                                            let unreadCount = response.unread_count || 0;
+                                            $("#dashboard-notification-count").text(unreadCount);
+                                        } else {
+                                            $("#dashboard-notification-count").text("0");
+                                        }
+                                    },
+                                    error: function () {
+                                        console.error("Error fetching unread notifications count.");
+                                        $("#dashboard-notification-count").text("0");
+                                    }
+                                });
+                            }
+
+                            loadUnreadNotificationCount(); // Initial load
+
+                            // Optional: Refresh every 10s if you like real-time updates
+                            setInterval(loadUnreadNotificationCount, 10000);
+                        });
+                    </script>
+
+                    <!-- script for Customers Unread Notification Div -->
+                    <!-- Customers Unread Notification Div -->
+
+                    <!-- dashboard grid end div  -->
+                </div>
+                <!-- dashboard grid end div  -->
+
+                <!-- Custoemr's Recent Activities  -->
+                <h3>Recent Activities</h3>
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Activity</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="customerRecentActivities">
+                            <!-- Dynamic activities will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- ✅ Your AJAX script here -->
+                <script>
+                    function loadCustomerRecentActivities() {
+                        $.ajax({
+                            url: "get_customer_recent_activities.php",
+                            method: "GET",
+                            dataType: "json",
+                            success: function (response) {
+                                if (response.status === "success") {
+                                    let html = "";
+                                    response.activities.forEach(activity => {
+                                        let statusClass = "";
+                                        if (activity.status === "Pendings") statusClass = "status-pending";
+                                        else if (activity.status === "In Progress") statusClass = "status-inprogress";
+                                        else if (activity.status === "Completed") statusClass = "status-completed";
+                                        else if (activity.status === "Rejected") statusClass = "status-rejected";
+
+                                        html += `
+                            <tr>
+                                <td>${activity.created_at}</td>
+                                <td>${activity.service_name}</td>
+                                <td><span class="status ${statusClass}">${activity.status}</span></td>
+                            </tr>
+                        `;
+                                    });
+                                    $("#customerRecentActivities").html(html);
+                                }
+                            },
+                            error: function () {
+                                console.error("Error loading recent customer activities.");
+                            }
+                        });
+                    }
+
+                    $(document).ready(function () {
+                        loadCustomerRecentActivities();
+                    });
+                </script>
+
+
+                <!-- Custoemr's Recent Activities  -->
+
+
+                <!-- Dashboard end div -->
+            </div>
+            <!-- Dashboard end div -->
+
+            <!-- Profile Management Section -->
+            <div class="section" id="profile">
+                <h2>Profile Management</h2>
+                <form id="profile-form">
+                    <div class="dashboard-grid">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="fullName" name="name" placeholder="Enter Full Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="email" name="email" placeholder="Enter Email" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn">Update Profile</button>
+                </form>
+            </div>
+
+            <script>
+                $(document).ready(function () {
+                    $("#profile-form").submit(function (e) {
+                        e.preventDefault();
+
+                        const name = $("#fullName").val().trim();
+                        const email = $("#email").val().trim();
+
+                        // Validation
+                        if (name === "" || email === "") {
+                            alert("Please fill out all fields!");
+                            return;
+                        }
+                        if (!validateEmail(email)) {
+                            alert("Please enter a valid email address!");
+                            return;
+                        }
+
+                        $.ajax({
+                            url: "update_profile.php",
+                            method: "POST",
+                            data: { name: name, email: email },
+                            success: function (response) {
+                                const res = JSON.parse(response);
+                                if (res.status === "success") {
+                                    alert("Profile updated successfully!");
+                                    location.reload();
+                                } else {
+                                    alert("Error: " + res.message);
+                                }
+                            },
+                            error: function () {
+                                alert("Something went wrong! Please try again.");
+                            }
+                        });
+                    });
+
+                    function validateEmail(email) {
+                        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                        return re.test(email);
+                    }
+                });
+            </script>
+
+            <!-- Profile Management Section -->
+
+
+
+            <!-- Service History Section -->
+            <div class="section" id="history">
+                <h2>Service History</h2>
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Service</th>
+                                <th>Preffered Date</th>
+                                <!-- <th>Amount</th> -->
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="serviceHistoryTable">
+                            <!-- Orders will be loaded dynamically here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <script>
+                function loadServiceHistory() {
+                    $.ajax({
+                        url: "fetch_service_history.php",
+                        method: "GET",
+                        success: function (data) {
+                            $("#serviceHistoryTable").html(data);
+                        }
+                    });
+                }
+
+                $(document).ready(function () {
+                    loadServiceHistory(); // Load when page opens
+                    setInterval(loadServiceHistory, 5000); // Auto-refresh every 5 sec
+                });
+            </script>
+
+
+            <!-- Service History Section End-->
+
+
+
+
+
+            <!-- Feedback Section -->
+            <div class="section" id="feedback">
+                <h2>Feedback</h2>
+                <form id="feedback-form">
+                    <div class="form-group">
+                        <label>Select Completed Service</label>
+                        <select id="service-dropdown" name="booking_id" required>
+                            <option value="">Choose a service...</option>
+                            <!-- Options will be loaded dynamically -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Rating</label>
+                        <select id="rating" name="rating" required>
+                            <option value="5">5 - Excellent</option>
+                            <option value="4">4 - Very Good</option>
+                            <option value="3">3 - Good</option>
+                            <option value="2">2 - Fair</option>
+                            <option value="1">1 - Poor</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Your Feedback</label>
+                        <textarea id="comment" name="comment" rows="4" placeholder="Share your experience..."
+                            required></textarea>
+                    </div>
+                    <button type="submit" class="btn">Submit Feedback</button>
+                </form>
+
+            </div>
+
+            <!-- script for feedback section  -->
+            <script>
+                $(document).ready(function () {
+                    // Load completed services dropdown
+                    $.get("fetch_completed_services.php", function (data) {
+                        $("#service-dropdown").append(data);
+                    });
+
+                    // Form Validation + Feedback Submission
+                    $("#feedback-form").submit(function (e) {
+                        e.preventDefault();
+
+                        const bookingId = $("#service-dropdown").val();
+                        const rating = $("#rating").val();
+                        const comment = $("#comment").val().trim();
+
+                        if (!bookingId) {
+                            alert("Please select a service.");
+                            return;
+                        }
+                        if (!rating) {
+                            alert("Please select a rating.");
+                            return;
+                        }
+                        if (comment === "") {
+                            alert("Please enter your feedback.");
+                            return;
+                        }
+
+                        // Submit form via AJAX
+                        $.ajax({
+                            url: "submit_feedback.php",
+                            type: "POST",
+                            data: $(this).serialize(),
+                            success: function (response) {
+                                const res = JSON.parse(response);
+                                if (res.status === "success") {
+                                    alert("Feedback submitted successfully!");
+                                    $("#feedback-form")[0].reset();
+                                } else {
+                                    alert(res.message);
+                                }
+                            }
+                        });
+                    });
+                });
+
+            </script>
+            <!-- script for feedback section  -->
+            <!-- Feedback Section -->
+
+
+            <!-- FAQs Section -->
+            <div class="section" id="support">
+                <h2>FAQs</h2>
+                <div class="faq-container">
+                    <div class="faq-item">
+                        <div class="faq-question">How long does it take to complete a logo design?</div>
+                        <div class="faq-answer">
+                            Typically, a logo design project takes 3-5 business days. This includes initial concepts,
+                            revisions, and final delivery.
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">What file formats will I receive?</div>
+                        <div class="faq-answer">
+                            You'll receive your designs in multiple formats including AI, EPS, PDF, PNG, and JPG files.
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">Do you offer rush delivery?</div>
+                        <div class="faq-answer">
+                            Yes, we offer rush delivery at an additional cost. Please contact support for more details.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <h3 style="margin-top: 30px;">Need More Help?</h3>
+                <form id="support-form">
+                    <div class="form-group">
+                        <label>Subject</label>
+                        <input type="text" placeholder="What do you need help with?" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Message</label>
+                        <textarea rows="4" placeholder="Describe your issue..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn">Send Message</button>
+                </form> -->
+            </div>
+
+            <!-- Notifications Section -->
+            <!-- Notifications Tab -->
+            <div class="section" id="notifications">
+                <h2>Notifications <span id="notification-badge" class="badge">0</span>
+                </h2>
+                <div id="notification-list">
+                    <p>Loading notifications...</p>
+                </div>
+            </div>
+
+
+            <!-- AJAX Script to Fetch Notifications Dynamically -->
+            <script>
+                function loadNotifications() {
+                    $.ajax({
+                        url: "fetch_status_notifications.php",
+                        method: "GET",
+                        dataType: "json",
+                        success: function (response) {
+                            console.log("Response received:", response);
+
+                            if (response.status === "success") {
+                                let notificationsHtml = "";
+                                let unreadCount = response.unread_count || 0; // Unread counter
+
+                                response.notifications.forEach(notification => {
+                                    let readClass = notification.is_read == 0 ? "unread" : "read";
+                                    notificationsHtml += `
+                        <div class="notification-item ${readClass}">
+                            <p>${notification.message}</p>
+                            <small class="notif-time">${notification.created_at}</small>
+                        </div>`;
+                                });
+
+                                $("#notification-list").html(notificationsHtml);
+
+                                // ✅ Update unread notification badge dynamically
+                                let badge = document.getElementById("notification-badge");
+                                if (unreadCount > 0) {
+                                    badge.innerText = unreadCount;
+                                    badge.style.display = "inline"; // Show badge
+                                } else {
+                                    badge.style.display = "none"; // Hide badge if no unread notifications
+                                }
+                            } else {
+                                $("#notification-list").html("<p>No new notifications.</p>");
+                                $("#notification-badge").style.display = "none"; // Hide badge if no notifications
+                            }
+                        },
+                        error: function () {
+                            console.error("Error loading notifications.");
+                            $("#notification-list").html("<p>Error loading notifications.</p>");
+                            $("#notification-badge").style.display = "none"; // Hide badge on error
+                        }
+                    });
+                }
+
+
+                function markNotificationsAsRead() {
+                    $.ajax({
+                        url: "mark_notifications_read.php",
+                        method: "POST",
+                        success: function (response) {
+                            console.log("Notifications marked as read:", response);
+                            loadNotifications();
+                        },
+                        error: function () {
+                            console.error("Error marking notifications as read.");
+                        }
+                    });
+                }
+
+                // ✅ Ensure notifications update correctly when switching tabs
+                $(document).ready(function () {
+                    loadNotifications();
+
+                    $(".tab-button").click(function () {
+                        let targetTab = $(this).data("target");
+
+                        $(".tab-content").hide();
+                        $("#" + targetTab).show();
+
+                        // If Notifications tab is opened, mark messages as read
+                        if (targetTab === "notifications-section") {
+                            markNotificationsAsRead();
+                        }
+                    });
+
+                    $(".tab-content").hide();
+                    $(".tab-content:first").show();
+                });
+
+            </script>
+
+            <!-- ajax for dynamic notification  -->
+
+            <!-- Notifications Section end-->
+
+            <!-- Change Password Section -->
+
+            <!-- Change Password Section -->
+            <div class="section" id="password">
+                <h2>Change Password</h2>
+                <form id="password-form">
+                    <div class="form-group">
+                        <label>Current Password</label>
+                        <input type="password" id="currentPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label>New Password</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="newPassword" required>
+                            <span class="toggle-password" data-target="#newPassword">&#128065;</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm New Password</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="confirmPassword" required>
+                            <span class="toggle-password" data-target="#confirmPassword">&#128065;</span>
+                        </div>
+                        <small id="confirmMessage" style="color: red; display: none;">Passwords do not match.</small>
+                    </div>
+                    <button type="submit" class="btn">Update Password</button>
+                </form>
+            </div>
+
+
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    // Toggle eye icon visibility
+                    document.querySelectorAll('.toggle-password').forEach(icon => {
+                        icon.addEventListener('click', () => {
+                            const target = document.querySelector(icon.dataset.target);
+                            target.type = target.type === 'password' ? 'text' : 'password';
+                        });
+                    });
+
+                    // Real-time confirm password match check
+                    const newPassword = document.getElementById('newPassword');
+                    const confirmPassword = document.getElementById('confirmPassword');
+                    const confirmMessage = document.getElementById('confirmMessage');
+
+                    confirmPassword.addEventListener('input', () => {
+                        if (confirmPassword.value !== newPassword.value) {
+                            confirmPassword.style.borderColor = 'red';
+                            confirmMessage.style.display = 'block';
+                        } else {
+                            confirmPassword.style.borderColor = 'green';
+                            confirmMessage.style.display = 'none';
+                        }
+                    });
+
+                    // Password form submission
+                    document.getElementById('password-form').addEventListener('submit', function (e) {
+                        e.preventDefault();
+
+                        const current = document.getElementById('currentPassword').value;
+                        const newPass = newPassword.value;
+                        const confirmPass = confirmPassword.value;
+
+                        const strongRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]?).{8,}$/;
+                        if (!strongRegex.test(newPass)) {
+                            alert('New password must be at least 8 characters, include uppercase, lowercase, and a number.');
+                            return;
+                        }
+                        if (newPass !== confirmPass) {
+                            alert('New password and confirm password do not match!');
+                            return;
+                        }
+
+                        // Submit via AJAX
+                        $.ajax({
+                            url: 'change_password.php',
+                            method: 'POST',
+                            data: {
+                                currentPassword: current,
+                                newPassword: newPass
+                            },
+                            success: function (response) {
+                                const res = JSON.parse(response);
+                                if (res.status === 'success') {
+                                    alert('Password updated successfully!');
+                                    document.getElementById('password-form').reset();
+                                } else {
+                                    alert(res.message);
+                                }
+                            }
+                        });
+                    });
+                });
+
+            </script>
+
+
+            <!-- Change Password Section end-->
+
+
+            <!-- end div of conatiner -->
+        </div>
+        <!-- end div of conatiner -->
+        <script src="Customer-Dashboard.js"></script>
+
+    </div>
+
+
+</body>
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.body.classList.add("loaded");
+    });
+
+    document.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', function (event) {
+            if (this.hostname === window.location.hostname && this.target !== "_blank") {
+                event.preventDefault();
+                document.body.style.opacity = "0";
+                setTimeout(() => {
+                    window.location.href = About - Us.html;
+                }, 500);
+            }
+        });
+    });
+
+</script>
+
+</html>

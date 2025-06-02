@@ -1,0 +1,204 @@
+/* Responsive Admin Dashboard Styles */
+
+/* Base responsive adjustments */
+@media (max-width: 1024px) {
+    .charts-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .chart-container {
+      width: 100% !important; /* Override any inline styles */
+    }
+  }
+  
+  /* Tablet Styles */
+  @media (max-width: 992px) {
+    .stats-container {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  
+    .sidebar {
+      width: 220px;
+    }
+  
+    .main-content {
+      margin-left: 220px;
+    }
+  
+    .header {
+      flex-direction: column;
+      gap: 15px;
+      text-align: center;
+    }
+  
+    .header h1 {
+      font-size: 1.5rem;
+    }
+  }
+  
+  /* Mobile Styles */
+  @media (max-width: 768px) {
+    /* Dashboard container */
+    .dashboard-container {
+      flex-direction: column;
+      margin-top: 0;
+    }
+  
+    /* Sidebar */
+    .sidebar {
+      width: 100%;
+      height: auto;
+      position: relative;
+      overflow-y: visible;
+      padding: 10px;
+      max-height: none;
+    }
+  
+    .sidebar-header {
+      padding: 10px 0;
+    }
+  
+    .sidebar-header h2 {
+      font-size: 1.2rem;
+    }
+  
+    .nav-menu {
+      margin-top: 10px;
+    }
+  
+    .nav-item {
+      padding: 8px 10px;
+      margin-bottom: 3px;
+    }
+  
+    /* Main Content */
+    .main-content {
+      margin-left: 0;
+      padding: 10px;
+    }
+  
+    /* Header */
+    .header {
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+  
+    /* Stats */
+    .stats-container {
+      grid-template-columns: 1fr;
+      gap: 15px;
+    }
+  
+    /* Tables */
+    .table-container {
+      padding: 10px;
+      margin-bottom: 15px;
+      overflow-x: auto;
+    }
+  
+    table {
+      min-width: 600px; /* Ensures tables can be scrolled horizontally */
+    }
+  
+    th,
+    td {
+      padding: 8px;
+      font-size: 0.9rem;
+    }
+  
+    /* Forms */
+    .form-container {
+      padding: 15px;
+    }
+  
+    .form-group {
+      margin-bottom: 15px;
+    }
+  
+    input,
+    select,
+    textarea,
+    button {
+      padding: 8px;
+    }
+  }
+  
+  /* Small Mobile Styles */
+  @media (max-width: 480px) {
+    .header h1 {
+      font-size: 1.2rem;
+    }
+  
+    .profile-section {
+      flex-direction: column;
+      gap: 5px;
+    }
+  
+    .stat-card {
+      padding: 15px;
+    }
+  
+    .stat-card h3 {
+      font-size: 0.8rem;
+    }
+  
+    .stat-card p {
+      font-size: 1.2rem;
+    }
+  
+    .table-container h2 {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+  
+    /* Improve button spacing on mobile */
+    button {
+      padding: 8px 12px;
+      font-size: 0.9rem;
+    }
+  
+    /* Pagination buttons */
+    .pagination-btn {
+      margin: 0 2px;
+      padding: 4px 8px;
+      font-size: 0.9rem;
+    }
+  }
+  
+  /* Fix for status badges on mobile */
+  @media (max-width: 768px) {
+    .status-badge {
+      padding: 3px 6px;
+      font-size: 0.75rem;
+      display: inline-block;
+    }
+  }
+  
+  /* Ensure charts are responsive */
+  canvas {
+    max-width: 100%;
+    height: auto !important;
+  }
+  
+  /* Fix for password toggle on mobile */
+  @media (max-width: 480px) {
+    .password-wrapper {
+      position: relative;
+    }
+  
+    .toggle-password {
+      right: 5px;
+      font-size: 16px;
+    }
+  }
+  
+  /* Improve form inputs on mobile */
+  @media (max-width: 768px) {
+    input,
+    select,
+    textarea {
+      font-size: 16px; /* Prevents iOS zoom on focus */
+    }
+  }
+  
+  

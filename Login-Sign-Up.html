@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login/Sign Up</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="Login-Sign-Up.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+</head>
+
+<body>
+
+    <!-- navbar -->
+    <!-- Navbar (loaded via fetch) -->
+    <div id="navbar-container"></div>
+
+    <script>
+        function initNavbar() {
+            console.log("Navbar Loaded!");
+
+            // Elements
+            const navbar = document.getElementById('navbar');
+            const hamburgerBtn = document.getElementById('hamburgerBtn');
+            const closeBtn = document.getElementById('closeBtn');
+            const mobileSidebar = document.getElementById('mobileSidebar');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+            let lastScrollTop = 0;
+
+            // Smart Sticky Navbar (Hides on Scroll Down, Shows on Scroll Up)
+            window.addEventListener('scroll', function () {
+                let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+                if (scrollTop > 10) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+
+                if (scrollTop > lastScrollTop && scrollTop > 100) {
+                    navbar.style.transform = 'translateY(-100%)';
+                } else {
+                    navbar.style.transform = 'translateY(0)';
+                }
+
+                lastScrollTop = scrollTop;
+            });
+
+            // Toggle Sidebar Function
+            function toggleSidebar() {
+                console.log("Toggling Sidebar!");
+                mobileSidebar.classList.toggle('active');
+                sidebarOverlay.classList.toggle('active');
+
+                if (mobileSidebar.classList.contains('active')) {
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    document.body.style.overflow = '';
+                }
+            }
+
+            // Attach Event Listeners
+            if (hamburgerBtn) {
+                hamburgerBtn.addEventListener('click', function () {
+                    console.log("Hamburger Clicked!");
+                    toggleSidebar();
+                });
+            }
+
+            if (closeBtn) {
+                closeBtn.addEventListener('click', function () {
+                    console.log("Close Button Clicked!");
+                    toggleSidebar();
+                });
+            }
+
+            if (sidebarOverlay) {
+                sidebarOverlay.addEventListener('click', function () {
+                    console.log("Overlay Clicked!");
+                    toggleSidebar();
+                });
+            }
+
+            // Close sidebar when clicking a menu item
+            document.querySelectorAll('.mobile-nav a').forEach(link => {
+                link.addEventListener('click', function () {
+                    console.log("Sidebar Link Clicked!");
+                    toggleSidebar();
+                });
+            });
+
+            // Close sidebar on window resize (if resized to desktop)
+            window.addEventListener('resize', function () {
+                if (window.innerWidth > 768 && mobileSidebar.classList.contains('active')) {
+                    toggleSidebar();
+                }
+            });
+        }
+
+        // Load Navbar and then Initialize it
+        fetch('navbar.php')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("navbar-container").innerHTML = data;
+                setTimeout(() => {
+                    initNavbar();  // Call the function after navbar is loaded
+                }, 500);
+            })
+            .catch(error => console.error("Error loading navbar:", error));
+    </script>
+
+    <!-- Navbar (loaded via fetch) -->
+    <!-- navbar -->
+
+
+    <div class="main-div">
+
+        <div class="container" id="container">
+            <!-- Sign-up Form  -->
+            <div class="form-container sign-up-container">
+                <form action="registration.php" method="post">
+                    <h1>Create Account</h1>
+                    <input type="text" name="name" placeholder="Name" />
+                    <input type="email" name="email" placeholder="Email" />
+                    <input type="password" name="password" placeholder="Password" />
+                    <button class="login">Sign Up</button>
+                </form>
+            </div>
+            <!-- Styles for signup form validation  -->
+            <style>
+                input.valid {
+                    border: 2px solid green;
+                }
+
+                input.invalid {
+                    border: 2px solid red;
+                }
+
+                small.feedback {
+                    font-size: 12px;
+                    display: block;
+                    margin-top: 5px;
+                    color: red;
+                }
+
+                small.feedback.valid {
+                    color: green;
+                }
+            </style>
+            <!-- Styles for signup form validation  -->
+            <!-- Script for signup from validation  -->
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+
+                    const emailField = document.querySelector('input[name="email"]');
+                    const passwordField = document.querySelector('input[name="password"]');
+
+                    // Email Validation
+                    emailField.insertAdjacentHTML('afterend', '<small class="feedback" id="emailFeedback"></small>');
+                    emailField.addEventListener('input', () => {
+                        const emailValue = emailField.value;
+                        const emailFeedback = document.getElementById('emailFeedback');
+                        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+                        if (emailPattern.test(emailValue)) {
+                            emailField.classList.add('valid');
+                            emailField.classList.remove('invalid');
+                            emailFeedback.textContent = "Valid email!";
+                            emailFeedback.classList.add('valid');
+                        } else {
+                            emailField.classList.add('invalid');
+                            emailField.classList.remove('valid');
+                            emailFeedback.textContent = "Enter a valid email (e.g., user@example.com)";
+                            emailFeedback.classList.remove('valid');
+                        }
+                    });
+
+                    // Password Validation
+                    passwordField.insertAdjacentHTML('afterend', '<small class="feedback" id="passwordFeedback"></small>');
+                    passwordField.addEventListener('input', () => {
+                        const passwordValue = passwordField.value;
+                        const passwordFeedback = document.getElementById('passwordFeedback');
+                        const strongPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W]).{8,}$/;
+
+                        if (strongPassword.test(passwordValue)) {
+                            passwordField.classList.add('valid');
+                            passwordField.classList.remove('invalid');
+                            passwordFeedback.textContent = "Strong password!";
+                            passwordFeedback.classList.add('valid');
+                        } else {
+                            passwordField.classList.add('invalid');
+                            passwordField.classList.remove('valid');
+                            passwordFeedback.textContent = "Min 8 chars, upper & lower case, number & special char required.";
+                            passwordFeedback.classList.remove('valid');
+                        }
+                    });
+
+                });
+            </script>
+
+            <!-- Script for signup from validation  -->
+            <!-- Sign-up Form  -->
+
+            <div class="form-container sign-in-container">
+                <form action="login.php" method="post">
+                    <h1>Login</h1>
+                    <select name="role" required>
+                        <option value="">Select Role</option>
+                        <option value="admin">Admin</option>
+                        <option value="customer">Customer</option>
+                    </select>
+
+                    <input type="email" name="email" placeholder="Email" required />
+                    <input type="password" name="password" placeholder="Password" required />
+
+                    <!-- <a href="#">Forgot your password?</a> -->
+
+                    <button type="submit" class="login">Login</button>
+                </form>
+
+
+
+
+
+            </div>
+            <div class="overlay-container">
+                <div class="overlay">
+                    <div class="overlay-panel overlay-left">
+                        <h1>Welcome Back!</h1>
+                        <p>To keep connected with us please login with your personal info</p>
+                        <button class="ghost" id="signIn">LOGIN</button>
+                    </div>
+                    <div class="overlay-panel overlay-right">
+                        <h1>Hello, Friend!</h1>
+                        <p class="text-1">Enter your personal details and start journey with us</p>
+                        <button class="ghost" id="signUp">SIGN UP</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="Login-Sign-Up.js"></script>
+    </div>
+
+
+    <!-- <br> -->
+
+    <footer>
+        <p class="footer-end"> &#169; PIXSOFT GRAPHICS HUB. All rights reserved </p>
+    </footer>
+
+
+</body>
+
+<script>
+
+    $('#head-content').load('navbar.html')
+
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.body.classList.add("loaded");
+    });
+
+    document.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', function (event) {
+            if (this.hostname === window.location.hostname && this.target !== "_blank") {
+                event.preventDefault();
+                document.body.style.opacity = "0";
+                setTimeout(() => {
+                    window.location.href = About - Us.html;
+                }, 500);
+            }
+        });
+    });
+
+</script>
+
+</html>

@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixsoft Graphics Hub - Admin Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <link rel="stylesheet" href="Admin-Dashboard.css">
+    <link rel="stylesheet" href="Admin-Dashboard-responsive.css">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+</head>
+
+<body>
+
+    <!-- navbar -->
+    <!-- Navbar (loaded via fetch) -->
+    <div id="navbar-container"></div>
+
+    <script>
+        function initNavbar() {
+            console.log("Navbar Loaded!");
+
+            // Elements
+            const navbar = document.getElementById('navbar');
+            const hamburgerBtn = document.getElementById('hamburgerBtn');
+            const closeBtn = document.getElementById('closeBtn');
+            const mobileSidebar = document.getElementById('mobileSidebar');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+            let lastScrollTop = 0;
+
+            // Smart Sticky Navbar (Hides on Scroll Down, Shows on Scroll Up)
+          //  window.addEventListener('scroll', function () {
+              //  let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+              //  if (scrollTop > 10) {
+                  //  navbar.classList.add('scrolled');
+              //  } else {
+                //    navbar.classList.remove('scrolled');
+//}
+
+                //if (scrollTop > lastScrollTop && scrollTop > 100) {
+                 //   navbar.style.transform = 'translateY(-100%)';
+               // } else {
+                 //   navbar.style.transform = 'translateY(0)';
+              //  }
+
+               // lastScrollTop = scrollTop;
+          //  });
+
+            // Toggle Sidebar Function
+            function toggleSidebar() {
+                console.log("Toggling Sidebar!");
+                mobileSidebar.classList.toggle('active');
+                sidebarOverlay.classList.toggle('active');
+
+                if (mobileSidebar.classList.contains('active')) {
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    document.body.style.overflow = '';
+                }
+            }
+
+            // Attach Event Listeners
+            if (hamburgerBtn) {
+                hamburgerBtn.addEventListener('click', function () {
+                    console.log("Hamburger Clicked!");
+                    toggleSidebar();
+                });
+            }
+
+            if (closeBtn) {
+                closeBtn.addEventListener('click', function () {
+                    console.log("Close Button Clicked!");
+                    toggleSidebar();
+                });
+            }
+
+            if (sidebarOverlay) {
+                sidebarOverlay.addEventListener('click', function () {
+                    console.log("Overlay Clicked!");
+                    toggleSidebar();
+                });
+            }
+
+            // Close sidebar when clicking a menu item
+            document.querySelectorAll('.mobile-nav a').forEach(link => {
+                link.addEventListener('click', function () {
+                    console.log("Sidebar Link Clicked!");
+                    toggleSidebar();
+                });
+            });
+
+            // Close sidebar on window resize (if resized to desktop)
+            window.addEventListener('resize', function () {
+                if (window.innerWidth > 768 && mobileSidebar.classList.contains('active')) {
+                    toggleSidebar();
+                }
+            });
+        }
+
+        // Load Navbar and then Initialize it
+        fetch('navbar.php')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("navbar-container").innerHTML = data;
+                setTimeout(() => {
+                    initNavbar();  // Call the function after navbar is loaded
+                }, 500);
+            })
+            .catch(error => console.error("Error loading navbar:", error));
+    </script>
+
+    <!-- Navbar (loaded via fetch) -->
+    <!-- navbar -->
+
+    <!-- <div id="head-content"></div> -->
+
+    <div class="dashboard-container">
+
+
+        <!-- Sidebar -->
+
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h1>PIX<span class="pix">S</span>OFT</h1> <h3>GRAPHICS HUB</h3>
+            </div>
+            <div class="nav-menu">
+                <div class="nav-item active" data-section="dashboard">Dashboard</div>
+                <div class="nav-item" data-section="users">Booking Management</div>
+                <div class="nav-item" data-section="services">Service Management</div>
+                <div class="nav-item" data-section="orders">Order Management</div>
+                <div class="nav-item" data-section="content">Content Management</div>
+                <div class="nav-item" data-section="reports">Reports & Analytics</div>
+                <div class="nav-item" data-section="settings">Contact Form Response</div>
+                <div class="nav-item" data-section="feedback">Feedback</div>
+                <div class="nav-item" data-section="newsletter">Subscribers List</div>
+                <div class="nav-item" data-section="profile">Update Profile</div>
+                <div class="nav-item" id="logout1">Logout</div>
+                <script>
+                    document.getElementById("logout1").addEventListener("click", function(event) {
+                        event.preventDefault(); // Prevent immediate redirect
+                
+                        // Show confirmation dialog
+                        let confirmLogout = confirm("Are you sure you want to log out?");
+                        
+                        if (confirmLogout) {
+                            window.location.href = "logout.php"; // Redirect if user confirms
+                        }
+                    });
+                </script>
+                
+            </div>
+        </div>
+
+
+
+
+
+
+        <!-- Main Content -->
+
+        <div class="main-content">
+            <!-- Dashboard Overview  -->
+            <div class="header">
+                <h1>Dashboard Overview</h1>
+                <div class="profile-section">
+                    <div class="profile-img">
+                        <img class="profile-img" src="admin.jpg" alt="">
+                    </div>
+                    <span id="adminNameDisplay">Loading...</span>
+                </div>
+            </div>
+            <!-- Dashboard Overview  -->
+
+
+
+
+
+            <!-- Dashboard Section -->
+
+            <div id="dashboard" class="section active">
+                <div class="stats-container">
+                    <!-- Total Users (Reports & Analytics) -->
+                    <div class="stat-card">
+                        <h3>Total Users</h3>
+                        <p id="totalUsersReport">Loading...</p>
+                    </div>
+
+                    <script>
+                        // Fetch total users and update Reports & Analytics
+                        function loadTotalUsersReport() {
+                            fetch('get_total_users.php')
+                                .then(response => response.json())
+                                .then(data => {
+                                    document.getElementById("totalUsersReport").innerText = data.total_users;
+                                })
+                                .catch(error => console.error("Error loading total users (Reports):", error));
+                        }
+
+                        // Load on page load
+                        document.addEventListener("DOMContentLoaded", loadTotalUsersReport);
+                    </script>
+
+                    <!-- Totsal users  -->
+
+                    <!-- Total Active Projects -->
+
+                    <div class="stat-card">
+                        <h3>Active Projects</h3>
+                        <p>45</p>
+                    </div>
+
+                    <!-- ajax for total active projects  -->
+                    <script>
+                        function loadAdminActiveProjects() {
+                            $.ajax({
+                                url: "get_admin_active_projects.php",
+                                method: "GET",
+                                dataType: "json",
+                                success: function (response) {
+                                    if (response.status === "success") {
+                                        $(".stat-card h3:contains('Active Projects')").next("p").text(response.total);
+                                    } else {
+                                        console.error("Error fetching data:", response.message);
+                                    }
+                                },
+                                error: function () {
+                                    console.error("Error loading active projects.");
+                                }
+                            });
+                        }
+
+                        $(document).ready(function () {
+                            loadAdminActiveProjects();
+                            setInterval(loadAdminActiveProjects, 10000); // Auto-refresh every 10 seconds
+                        });
+                    </script>
+
+                    <!-- ajax for total active projects  -->
+
+                    <!-- Total Active Projects -->
+
+                    <!-- Total Completed Projects -->
+
+                    <div class="stat-card">
+                        <h3>Completed Orders</h3>
+                        <p>892</p>
+                    </div>
+
+                    <!-- ajax for total completed projects -->
+                    <script>
+                        function loadAdminCompletedOrders() {
+                            $.ajax({
+                                url: "get_admin_completed_orders.php",
+                                method: "GET",
+                                dataType: "json",
+                                success: function (response) {
+                                    if (response.status === "success") {
+                                        $(".stat-card h3:contains('Completed Orders')").next("p").text(response.total);
+                                    } else {
+                                        console.error("Error fetching data:", response.message);
+                                    }
+                                },
+                                error: function () {
+                                    console.error("Error loading completed orders.");
+                                }
+                            });
+                        }
+
+                        $(document).ready(function () {
+                            loadAdminCompletedOrders();
+                            setInterval(loadAdminCompletedOrders, 10000); // Auto-refresh every 10 seconds
+                        });
+                    </script>
+
+                    <!-- ajax for total completed projects -->
+
+                    <!-- Total Completed Projects -->
+
+
+                    <!-- <div class="stat-card">
+                        <h3>Revenue</h3>
+                        <p>₹45,678</p>
+                    </div> -->
+
+
+                </div>
+
+                <div class="charts-grid">
+                    <div class="chart-container">
+                        <canvas id="trafficChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="ordersChart"></canvas>
+                    </div>
+                </div>
+
+
+                <!-- Admins Recent Activities -->
+
+                <div class="table-container" id="recent-orders-section">
+                    <h2>Recent Orders</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Client</th>
+                                <th>Service</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentOrdersTable">
+                            <!-- Data will be loaded dynamically here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- script -->
+                <script>
+                    function loadAdminRecentActivities() {
+                        $.ajax({
+                            url: "get_admin_recent_activities.php",
+                            method: "GET",
+                            dataType: "json",
+                            success: function (response) {
+                                if (response.status === "success") {
+                                    let activitiesHtml = "";
+
+                                    response.activities.forEach(activity => {
+                                        let statusClass = "";
+                                        if (activity.status === "Pendings") statusClass = "status-pending";
+                                        else if (activity.status === "In Progress") statusClass = "status-progress";
+                                        else if (activity.status === "Completed") statusClass = "status-completed";
+                                        else if (activity.status === "Rejected") statusClass = "status-rejected";
+
+                                        activitiesHtml += `
+                                            <tr>
+                                                <td>#${activity.booking_id}</td>
+                                                <td>${activity.full_name}</td>
+                                                <td>${activity.service_name}</td>
+                                                <td><span class="status-badge ${statusClass}">${activity.status}</span></td>
+                                                <td>${activity.created_at}</td>
+                                            </tr>
+                                        `;
+                                    });
+
+                                    $("#recentOrdersTable").html(activitiesHtml);
+                                } else {
+                                    console.error("Error fetching data:", response.message);
+                                    $("#recentOrdersTable").html("<tr><td colspan='5'>No recent activities found.</td></tr>");
+                                }
+                            },
+                            error: function () {
+                                console.error("Error loading recent activities.");
+                                $("#recentOrdersTable").html("<tr><td colspan='5'>Error loading data.</td></tr>");
+                            }
+                        });
+                    }
+
+                    $(document).ready(function () {
+                        loadAdminRecentActivities();
+                        setInterval(loadAdminRecentActivities, 10000); // Auto-refresh every 10 seconds
+                    });
+                </script>
+
+                <!-- script -->
+
+                <!-- Admins Recent Activities -->
+
+
+            </div>
+
+
+
+
+
+
+            <!-- Booking Management Section -->
+            <div id="users" class="section">
+                <div class="table-container">
+                    <h2>Booking Management</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Booking ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Services Booked</th>
+                                <th>Preferred Date</th>
+                                <th>Project Description</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bookingTableBody">
+                            <!-- Dynamic Data Will Be Loaded Here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- jQuery Script to Load Bookings via AJAX -->
+            <script>
+                $(document).ready(function () {
+                    loadBookings(); // Load booking data on page load
+
+                    // Function to Load Booking Requests Dynamically
+                    function loadBookings() {
+                        $.ajax({
+                            url: "fetch_bookings.php",
+                            method: "GET",
+                            success: function (data) {
+                                $("#bookingTableBody").html(data);
+                            },
+                            error: function () {
+                                alert("Error loading booking data.");
+                            }
+                        });
+                    }
+
+                    // Event Delegation for Accept/Reject Buttons (Fix for Dynamic Elements)
+                    $(document).on("click", ".action-btn", function () {
+                        let bookingId = $(this).data("id");
+                        let action = $(this).data("action").toLowerCase(); // Normalize to lowercase
+
+                        if (!confirm(`Are you sure you want to ${action} this booking?`)) {
+                            return;
+                        }
+
+                        let newStatus = (action === "accept") ? "Pendings" : "Rejected"; // Fix Status
+
+                        $.ajax({
+                            url: "update_booking_status.php",
+                            type: "POST",
+                            data: { booking_id: bookingId, new_status: newStatus },
+                            dataType: "json",
+                            success: function (response) {
+                                console.log("Response:", response);
+                                if (response.status === "success") {
+                                    alert(response.message);
+                                    loadBookings(); // Reload bookings without refreshing page
+                                } else {
+                                    alert("Error: " + response.message);
+                                }
+                            },
+                            error: function () {
+                                alert("Something went wrong! Please try again.");
+                            }
+                        });
+                    });
+                });
+            </script>
+
+
+
+
+            <!-- Service Management Section -->
+
+            <div id="services" class="section">
+                <div class="table-container">
+                    <h2>Service Management</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Service Name</th>
+                                <th>Description</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="servicesTable">
+                            <!-- Services will be loaded here via AJAX -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <script>
+                // Fetch and display services
+                function loadServices() {
+                    fetch('get-services.php')
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.length === 0) {
+                                document.getElementById("servicesTable").innerHTML = "<tr><td colspan='4' style='text-align:center; color:red;'>No services found.</td></tr>";
+                                return;
+                            }
+
+                            let tableContent = '';
+                            data.forEach(service => {
+                                tableContent += `
+                                    <tr>
+                                        <td>${service.category}</td>
+                                        <td><input type="text" value="${service.title}" id="title_${service.id}"></td>
+                                        <td><input type="text" value="${service.description}" id="desc_${service.id}"></td>
+                                        <td><button onclick="updateService(${service.id})">Update</button></td>
+                                    </tr>
+                                `;
+                            });
+                            document.getElementById("servicesTable").innerHTML = tableContent;
+                        })
+                        .catch(error => console.error("Error loading services:", error));
+                }
+
+                // Update service function
+                function updateService(serviceId) {
+                    const title = document.getElementById(`title_${serviceId}`).value;
+                    const description = document.getElementById(`desc_${serviceId}`).value;
+
+                    fetch('update-service.php', {
+                        method: "POST",
+                        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                        body: `id=${serviceId}&title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}`
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            alert(data.message);
+                            loadServices();
+                        })
+                        .catch(error => console.error("Error updating service:", error));
+                }
+
+                // Load services on page load
+                document.addEventListener("DOMContentLoaded", loadServices);
+            </script>
+
+            <!-- Script for ajax of service Managment -->
+
+
+
+
+            <!-- Order Management Section -->
+
+            <!-- Order Management Section -->
+            <div id="orders" class="section">
+                <div class="table-container">
+                    <h2>Order Management</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Client Name</th>
+                                <th>Email</th>
+                                <th>Service</th>
+                                <th>Preferred Date</th>
+                                <th>Project Details</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orderTableBody">
+                            <!-- Dynamic Data Will Be Loaded Here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- jQuery Script to Load Orders via AJAX -->
+            <script>
+                function loadOrders() {
+                    $.ajax({
+                        url: "fetch_orders.php",
+                        method: "GET",
+                        success: function (data) {
+                            $("#orderTableBody").html(data);
+                        }
+                    });
+                }
+
+                // Load orders when the page loads
+                $(document).ready(function () {
+                    loadOrders();
+                });
+            </script>
+
+            <!-- update status dynamically  -->
+            <script>
+                $(document).ready(function () {
+                    $(document).on("click", ".update-status", function () {
+                        let bookingId = $(this).data("id");
+                        let newStatus = $(this).data("status");
+                        let row = $(this).closest("tr");
+
+                        // Confirmation popup
+                        if (!confirm(`Are you sure you want to change status to ${newStatus}?`)) {
+                            return;
+                        }
+
+                        $.ajax({
+                            url: "update_order_status.php",
+                            type: "POST",
+                            data: { booking_id: bookingId, status: newStatus },
+                            dataType: "json",
+                            success: function (response) {
+                                if (response.status === "success") {
+                                    alert("Order status updated successfully!");
+
+                                    // Update the status text in the table
+                                    row.find(".status-badge").text(newStatus);
+                                    row.find(".status-badge").removeClass("status-pending status-progress").addClass(newStatus === "In Progress" ? "status-progress" : "status-completed");
+
+                                    // Enable/disable buttons based on status
+                                    if (newStatus === "In Progress") {
+                                        row.find("[data-status='In Progress']").prop("disabled", true);
+                                        row.find("[data-status='Completed']").prop("disabled", false);
+                                    } else if (newStatus === "Completed") {
+                                        row.find("[data-status='Completed']").prop("disabled", true);
+                                    }
+                                } else {
+                                    alert("Error: " + response.message);
+                                }
+                            },
+                            error: function () {
+                                alert("Something went wrong! Please try again.");
+                            }
+                        });
+                    });
+                });
+            </script>
+            <!-- update status dynamically  -->
+
+
+            <!-- Content Management Section -->
+            <!-- Content Management Section -->
+            <div id="content" class="section">
+                <div class="table-container">
+                    <h2>Content Management</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Image</th>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th>Last Updated</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="contentTable">
+                            <!-- Blog data will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <script>
+                function loadAdminContent() {
+                    fetch("fetch_blogs.php")
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.status === "success") {
+                                let contentHtml = "";
+                                data.blogs.forEach(blog => {
+                                    contentHtml += `
+                        <tr>
+                            <td>#${blog.blog_id}</td>
+                            <td><img src="${blog.image}" width="100"></td>
+                            <td>${blog.title}</td>
+                            <td>${blog.description}</td>
+                            <td>${new Date(blog.updated_at).toLocaleDateString()}</td>
+                            <td>
+                                <button onclick="editBlog(${blog.blog_id})">Edit</button>
+                            </td>
+                        </tr>
+                    `;
+                                });
+                                document.getElementById("contentTable").innerHTML = contentHtml;
+                            } else {
+                                console.error("Failed to fetch blogs.");
+                            }
+                        })
+                        .catch(error => console.error("Error loading blogs:", error));
+                }
+
+                // Load blogs on page load
+                document.addEventListener("DOMContentLoaded", loadAdminContent);
+
+                function editBlog(blog_id) {
+                    const newTitle = prompt("Enter new title:");
+                    const newDesc = prompt("Enter new description:");
+                    const newLink = prompt("Enter new blog link:");
+
+                    if (newTitle && newDesc && newLink) {
+                        const formData = new FormData();
+                        formData.append("blog_id", blog_id);
+                        formData.append("title", newTitle);
+                        formData.append("description", newDesc);
+                        formData.append("blog_link", newLink);
+
+                        fetch("update_blog.php", {
+                            method: "POST",
+                            body: formData
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.status === "success") {
+                                    alert("Blog updated successfully!");
+                                    loadAdminContent();
+                                } else {
+                                    alert("Update failed: " + data.message);
+                                }
+                            })
+                            .catch(error => console.error("Error updating blog:", error));
+                    }
+                }
+            </script>
+
+            <!-- Content Management Section -->
+
+
+            <!-- Reports & Analytics Section -->
+
+
+            <div id="reports" class="section">
+                <div class="stats-container">
+                    <!-- <div class="stat-card">
+                        <h3>Monthly Revenue</h3>
+                        <p>₹12,450</p>
+                    </div> -->
+
+                    <!-- Total Users (Reports & Analytics) -->
+                    <!-- <div class="stat-card">
+                        <h3>Total Users</h3>
+                        <p id="totalUsersReport">Loading...</p>
+                    </div>
+                    
+                    <script>
+                        function loadTotalUsersReport() {
+                            fetch('get_total_users.php?t=' + new Date().getTime()) // Prevent caching
+                                .then(response => response.json())
+                                .then(data => {
+                                    document.getElementById("totalUsersReport").innerText = data.total_users;
+                                })
+                                .catch(error => console.error("Error loading total users (Reports):", error));
+                        }
+                    
+                        // Run when page loads
+                        document.addEventListener("DOMContentLoaded", loadTotalUsersReport);
+                    </script> -->
+
+                    <!-- Totsal users  -->
+
+                    <!-- Service Conversion  -->
+                    <div class="stat-card">
+                        <h3>Service Conversion</h3>
+                        <p id="serviceConversionRate">Loading...</p>
+                    </div>
+
+                    <script>
+                        function loadServiceConversionRate() {
+                            fetch('get_service_conversion.php')
+                                .then(response => response.json())
+                                .then(data => {
+                                    document.getElementById("serviceConversionRate").innerText = data.conversion_rate + "%";
+                                })
+                                .catch(error => console.error("Error loading service conversion rate:", error));
+                        }
+
+                        // Load on page load
+                        document.addEventListener("DOMContentLoaded", loadServiceConversionRate);
+                    </script>
+
+                    <!-- Service Conversion  -->
+
+                    <!-- Customer Satisfaction  -->
+                    <div class="stat-card">
+                        <h3>Customer Satisfaction</h3>
+                        <p id="avg-satisfaction">0/5</p>
+                    </div>
+                    <!-- script for customer satisfaction -->
+                    <script>
+                        function fetchAverageSatisfaction() {
+                            fetch('get_average_rating.php')
+                                .then(response => response.json())
+                                .then(data => {
+                                    const rating = data.avg_rating || 0;
+                                    document.getElementById("avg-satisfaction").textContent = `${rating}/5`;
+                                })
+                                .catch(err => console.error("Error fetching average satisfaction:", err));
+                        }
+
+                        // Call on page load
+                        fetchAverageSatisfaction();
+
+                    </script>
+                    <!-- script for customer satisfaction -->
+                    <!-- Customer Satisfaction  -->
+
+                    <!-- Stats Conatiner end div -->
+                </div>
+                <!-- Stats Conatiner end div -->
+                <div class="charts-grid">
+                    <!-- <div class="chart-container">
+                        <canvas id="revenueChart"></canvas>
+                    </div> -->
+                    <div class="chart-container" style="width: 40%;">
+                        <canvas id="serviceChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+            <!-- Contact Form response Section -->
+            <!-- Contact Form Responses Section -->
+            <div id="settings" class="section">
+                <div class="table-container">
+                    <h2>Contact Form Submissions</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Subject</th>
+                                <th>Message</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="contactMessagesTable">
+                            <!-- Data will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+            <!-- AjAx for Admin contact form -->
+            <script>
+                function loadContactMessages() {
+                    $.ajax({
+                        url: 'get_contact_messages.php',
+                        method: 'GET',
+                        dataType: 'json',
+                        success: function (response) {
+                            if (response.status === 'success') {
+                                let rows = '';
+                                response.messages.forEach(msg => {
+                                    rows += `
+                        <tr>
+                            <td>#${msg.id}</td>
+                            <td>${msg.name}</td>
+                            <td>${msg.email}</td>
+                            <td>${msg.subject}</td>
+                            <td>${msg.message}</td>
+                            <td>${msg.submitted_at}</td>
+                        </tr>
+                    `;
+                                });
+                                $('#contactMessagesTable').html(rows);
+                            }
+                        }
+                    });
+                }
+
+                $(document).ready(function () {
+                    loadContactMessages();
+                    setInterval(loadContactMessages, 10000); // refresh every 10s
+                });
+
+            </script>
+            <!-- AjAx for Admin contact form -->
+
+            <!-- Contact Form response Section -->
+
+
+
+
+
+
+            <!-- Feedback Management Section -->
+            <div id="feedback" class="section">
+                <div class="table-container">
+                    <h2>User Feedback</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>User</th>
+                                <th>Service</th>
+                                <th>Rating</th>
+                                <th>Comment</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="feedbackTableBody">
+                            <!-- Loaded dynamically -->
+                        </tbody>
+                    </table>
+                    <div id="pagination-controls" style="margin-top: 15px;"></div>
+                </div>
+            </div>
+
+
+            <script>
+                let currentPage = 1;
+
+                function loadFeedback(page = 1) {
+                    $.ajax({
+                        url: "get_feedback.php?page=" + page,
+                        method: "GET",
+                        dataType: "json",
+                        success: function (response) {
+                            if (response.status === "success") {
+                                renderTable(response.feedback);
+                                renderPagination(response.total_feedback, response.current_page);
+                            } else {
+                                $("#feedbackTableBody").html("<tr><td colspan='6'>No feedback found.</td></tr>");
+                            }
+                        },
+                        error: function () {
+                            $("#feedbackTableBody").html("<tr><td colspan='6'>Error loading feedback.</td></tr>");
+                        }
+                    });
+                }
+
+                function renderTable(feedbackList) {
+                    let html = "";
+                    feedbackList.forEach(item => {
+                        let badgeColor = "badge-grey";
+                        if (item.rating >= 4) badgeColor = "badge-green";
+                        else if (item.rating == 3) badgeColor = "badge-yellow";
+                        else badgeColor = "badge-red";
+
+                        html += `
+                            <tr>
+                                <td>#${item.booking_id}</td>
+                                <td>${item.full_name}</td>
+                                <td>${item.service_name}</td>
+                                <td><span class="status-badge ${badgeColor}">${item.rating}/5</span></td>
+                                <td>${item.comment}</td>
+                                <td>${item.submitted_at}</td>
+                            </tr>
+                        `;
+                    });
+                    $("#feedbackTableBody").html(html);
+                }
+
+                function renderPagination(total, current) {
+                    let totalPages = Math.ceil(total / 5);
+                    let paginationHtml = "";
+                    for (let i = 1; i <= totalPages; i++) {
+                        paginationHtml += `<button class="pagination-btn ${i === current ? 'active-page' : ''}" data-page="${i}">${i}</button>`;
+                    }
+                    $("#pagination-controls").html(paginationHtml);
+                }
+
+                $(document).ready(function () {
+                    loadFeedback();
+
+                    // Handle pagination click
+                    $(document).on("click", ".pagination-btn", function () {
+                        let page = $(this).data("page");
+                        currentPage = page;
+                        loadFeedback(page);
+                    });
+                });
+            </script>
+
+
+            <style>
+                .status-badge.badge-green {
+                    background: #16a34a;
+                    color: white;
+                    padding: 4px 8px;
+                    border-radius: 4px;
+                }
+
+                .status-badge.badge-yellow {
+                    background: #facc15;
+                    color: black;
+                    padding: 4px 8px;
+                    border-radius: 4px;
+                }
+
+                .status-badge.badge-red {
+                    background: #dc2626;
+                    color: white;
+                    padding: 4px 8px;
+                    border-radius: 4px;
+                }
+
+                .status-badge.badge-grey {
+                    background: #6b7280;
+                    color: white;
+                    padding: 4px 8px;
+                    border-radius: 4px;
+                }
+
+                .pagination-btn {
+                    margin: 0 5px;
+                    padding: 5px 10px;
+                    background: #c70049;
+                    color: white;
+                    border: none;
+                    cursor: pointer;
+                }
+
+                .active-page {
+                    background: #9c0039;
+                }
+            </style>
+
+            <!-- Feedback Management Section -->
+
+
+            <!-- Newsletter Section  -->
+            <div id="newsletter" class="section"> 
+                <section class="newsletter-admin">
+                        <h2>Newsletter Subscribers</h2>
+                        <p>Click the button below to download the latest subscriber list.</p>
+                        <a href="download_newsletter.php" target="_blank" class="btn btn-primary">Download Excel</a>
+                </section>
+            </div>
+            <!-- Newsletter Section  -->
+
+            <!-- Profile Section -->
+            <!-- Profile Section -->
+
+
+            <div id="profile" class="section">
+                <!-- Admin Update Name Section -->
+                <div class="form-container" style="margin-bottom: 30px;">
+                    <h2>Update Profile</h2>
+                    <form id="update-admin-name-form">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" id="adminNameInput" placeholder="Loading..." required />
+                        </div>
+                        <button type="submit" class="btn">Update Name</button>
+                    </form>
+                </div>
+                <!-- script for admin name update  -->
+                <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                        fetchAdminName(); // Fetch name on load
+
+                        // Update name form submission
+                        document.getElementById('update-admin-name-form').addEventListener('submit', function (e) {
+                            e.preventDefault();
+                            const newName = document.getElementById('adminNameInput').value.trim();
+                            if (newName.length < 3) {
+                                alert('Name must be at least 3 characters');
+                                return;
+                            }
+
+                            fetch('update_admin_name.php', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ name: newName })
+                            })
+                                .then(res => res.json())
+                                .then(data => {
+                                    if (data.status === 'success') {
+                                        alert('Name updated successfully');
+                                        fetchAdminName(); // Refresh Dashboard name
+                                    } else {
+                                        alert('Error updating name');
+                                    }
+                                });
+                        });
+                    });
+
+                    // Fetch name for both dashboard + input field
+                    function fetchAdminName() {
+                        fetch('get_admin_name.php')
+                            .then(res => res.json())
+                            .then(data => {
+                                if (data.status === 'success') {
+                                    document.getElementById('adminNameInput').value = data.name;
+                                    document.getElementById('adminNameDisplay').textContent = data.name;
+                                }
+                            });
+                    }
+
+                </script>
+                <!-- script for admin name update  -->
+                <!-- Admin Update Name Section -->
+
+                <!-- Admin Update Password Part -->
+                <div class="form-container">
+                    <h2 style="margin: 30px 0 20px;">Update Password</h2>
+                    <form id="admin-password-form">
+                        <div class="form-group">
+                            <label>Current Password</label>
+                            <div class="password-wrapper">
+                                <input type="password" id="currentPassword" required />
+                                <span class="toggle-password" data-target="currentPassword">👁️</span>
+                            </div>
+                            <small id="currentPasswordFeedback"></small>
+                        </div>
+                        <div class="form-group">
+                            <label>New Password</label>
+                            <div class="password-wrapper">
+                                <input type="password" id="newPassword" required />
+                                <span class="toggle-password" data-target="newPassword">👁️</span>
+                            </div>
+                            <small id="newPasswordFeedback"></small>
+                        </div>
+                        <div class="form-group">
+                            <label>Confirm New Password</label>
+                            <div class="password-wrapper">
+                                <input type="password" id="confirmPassword" required />
+                                <span class="toggle-password" data-target="confirmPassword">👁️</span>
+                            </div>
+                            <small id="confirmPasswordFeedback"></small>
+                        </div>
+                        <button type="submit" class="btn">Change Password</button>
+                    </form>
+                </div>
+
+                <!-- styles for admin password update  -->
+                <style>
+                    .password-wrapper {
+                        position: relative;
+                    }
+
+                    .toggle-password {
+                        position: absolute;
+                        top: 50%;
+                        right: 10px;
+                        transform: translateY(-50%);
+                        cursor: pointer;
+                        font-size: 18px;
+                        color: #c70049;
+                    }
+
+                    input:focus {
+                        outline: none;
+                    }
+
+                    input.valid {
+                        border: 2px solid green;
+                    }
+
+                    input.invalid {
+                        border: 2px solid red;
+                    }
+                </style>
+                <!-- styles for admin password update  -->
+                <!-- script for admin password update  -->
+                <script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                        // Toggle password visibility
+                        document.querySelectorAll('.toggle-password').forEach(eye => {
+                            eye.addEventListener('click', () => {
+                                const target = document.getElementById(eye.dataset.target);
+                                target.type = target.type === "password" ? "text" : "password";
+                            });
+                        });
+
+                        // Live Current Password Validation
+                        document.getElementById('currentPassword').addEventListener('blur', function () {
+                            const currentPassword = this.value;
+                            fetch('validate_admin_current_password.php', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ currentPassword })
+                            })
+                                .then(res => res.json())
+                                .then(data => {
+                                    const feedback = document.getElementById('currentPasswordFeedback');
+                                    if (data.status === 'success') {
+                                        this.classList.remove('invalid');
+                                        this.classList.add('valid');
+                                        feedback.textContent = "Password correct!";
+                                        feedback.style.color = "green";
+                                    } else {
+                                        this.classList.remove('valid');
+                                        this.classList.add('invalid');
+                                        feedback.textContent = "Incorrect current password!";
+                                        feedback.style.color = "red";
+                                    }
+                                });
+                        });
+
+                        // New Password Validation
+                        document.getElementById('newPassword').addEventListener('input', function () {
+                            const pass = this.value;
+                            const feedback = document.getElementById('newPasswordFeedback');
+                            const strongPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W]).{8,}$/;
+
+                            if (strongPassword.test(pass)) {
+                                this.classList.remove('invalid');
+                                this.classList.add('valid');
+                                feedback.textContent = "Strong password!";
+                                feedback.style.color = "green";
+                            } else {
+                                this.classList.remove('valid');
+                                this.classList.add('invalid');
+                                feedback.textContent = "Min 8 chars, upper & lower case, number & special char";
+                                feedback.style.color = "red";
+                            }
+                        });
+
+                        // Confirm Password Validation
+                        document.getElementById('confirmPassword').addEventListener('input', function () {
+                            const newPass = document.getElementById('newPassword').value;
+                            const confirmPass = this.value;
+                            const feedback = document.getElementById('confirmPasswordFeedback');
+
+                            if (newPass === confirmPass && newPass !== '') {
+                                this.classList.remove('invalid');
+                                this.classList.add('valid');
+                                feedback.textContent = "Passwords match!";
+                                feedback.style.color = "green";
+                            } else {
+                                this.classList.remove('valid');
+                                this.classList.add('invalid');
+                                feedback.textContent = "Passwords do not match!";
+                                feedback.style.color = "red";
+                            }
+                        });
+
+                        // Submit Form
+                        document.getElementById('admin-password-form').addEventListener('submit', function (e) {
+                            e.preventDefault();
+                            const currentPassword = document.getElementById('currentPassword').value;
+                            const newPassword = document.getElementById('newPassword').value;
+                            const confirmPassword = document.getElementById('confirmPassword').value;
+
+                            if (newPassword !== confirmPassword) {
+                                alert("New passwords do not match!");
+                                return;
+                            }
+
+                            fetch('update_admin_password.php', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ currentPassword, newPassword })
+                            })
+                                .then(res => res.json())
+                                .then(data => {
+                                    if (data.status === 'success') {
+                                        alert("Password updated successfully!");
+                                        // Optionally reset fields
+                                        document.getElementById('admin-password-form').reset();
+                                        document.querySelectorAll('input').forEach(input => input.classList.remove('valid', 'invalid'));
+                                    } else {
+                                        alert(data.message || "Failed to update password!");
+                                    }
+                                });
+                        });
+                    });
+
+                </script>
+                <!-- script for admin password update  -->
+                <!-- Admin Update Password Part -->
+
+                <!-- end div  -->
+            </div>
+            <!-- end div  -->
+            <!-- Profile Section -->
+
+
+
+            <!-- end divs -->
+        </div>
+    </div>
+    <!-- end divs -->
+
+
+</body>
+<script src="Admin-Dashboard.js"></script>
+<script>
+
+    $('#head-content').load('navbar.html')
+
+</script>
+
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.body.classList.add("loaded");
+    });
+
+    document.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', function (event) {
+            if (this.hostname === window.location.hostname && this.target !== "_blank") {
+                event.preventDefault();
+                document.body.style.opacity = "0";
+                setTimeout(() => {
+                    window.location.href = About - Us.html;
+                }, 500);
+            }
+        });
+    });
+
+</script>
+
+<script>
+    // Check if the user is logged in (replace with your actual session check logic)
+    const isLoggedIn = true; // Set to true if the admin is logged in
+    const username = "Admin"; // Replace with the actual admin username
+
+    // Get the navbar elements
+    const loginLink = document.getElementById('login-link');
+    const profileLink = document.getElementById('profile-link');
+
+    // Update the navbar based on login status
+    if (isLoggedIn) {
+        loginLink.style.display = 'none'; // Hide the login link
+        profileLink.style.display = 'block'; // Show the profile link
+        profileLink.textContent = username; // Set the username
+    } else {
+        loginLink.style.display = 'block'; // Show the login link
+        profileLink.style.display = 'none'; // Hide the profile link
+    }
+</script>
+
+</html>

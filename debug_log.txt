@@ -1,0 +1,167 @@
+Array
+(
+    [booking_id] => 61
+    [new_status] => Pendings
+)
+Array
+(
+    [booking_id] => 61
+    [new_status] => Pendings
+)
+Array
+(
+    [booking_id] => 61
+    [new_status] => Pendings
+)
+Changing status for Booking ID: 61 to Pendings
+Array
+(
+    [booking_id] => 64
+    [new_status] => Pendings
+)
+Changing status for Booking ID: 64 to Pendings
+Array
+(
+    [booking_id] => 65
+    [new_status] => Rejected
+)
+Changing status for Booking ID: 65 to Rejected
+Array
+(
+    [booking_id] => 66
+    [new_status] => Pendings
+)
+Changing status for Booking ID: 66 to Pendings
+Array
+(
+    [booking_id] => 67
+    [new_status] => Pendings
+)
+Changing status for Booking ID: 67 to Pendings
+Array
+(
+    [booking_id] => 68
+    [new_status] => Pendings
+)
+Changing status for Booking ID: 68 to Pendings
+Array
+(
+    [booking_id] => 69
+    [new_status] => Pendings
+)
+Changing status for Booking ID: 69 to Pendings
+Array
+(
+    [booking_id] => 78
+    [new_status] => Pendings
+)
+Array
+(
+    [booking_id] => 79
+    [new_status] => Pendings
+)
+Array
+(
+    [booking_id] => 80
+    [new_status] => Pendings
+)
+Array
+(
+    [booking_id] => 81
+    [new_status] => Pendings
+)
+Array
+(
+    [booking_id] => 82
+    [new_status] => Pendings
+)
+Array
+(
+    [booking_id] => 84
+    [new_status] => Pendings
+)
+Array
+(
+    [booking_id] => 83
+    [new_status] => Pendings
+)
+Array
+(
+    [booking_id] => 85
+    [new_status] => Pendings
+)
+Array
+(
+    [booking_id] => 86
+    [new_status] => Pendings
+)
+Array
+(
+    [booking_id] => 87
+    [new_status] => Pendings
+)
+Array
+(
+    [booking_id] => 89
+    [new_status] => Pendings
+)
+Array
+(
+    [booking_id] => 90
+    [new_status] => Pendings
+)
+Array
+(
+    [booking_id] => 88
+    [new_status] => Pendings
+)
+Array
+(
+    [booking_id] => 92
+    [new_status] => Pendings
+)
+Array
+(
+    [booking_id] => 91
+    [new_status] => Pendings
+)
+Array
+(
+    [booking_id] => 95
+    [new_status] => Pendings
+)
+Array
+(
+    [booking_id] => 93
+    [new_status] => Pendings
+)
+Array
+(
+    [booking_id] => 94
+    [new_status] => Pendings
+)
+Array
+(
+    [booking_id] => 96
+    [new_status] => Pendings
+)
+Array
+(
+    [booking_id] => 97
+    [new_status] => Pendings
+)
+Array
+(
+    [booking_id] => 100
+    [new_status] => Pendings
+)
+Array
+(
+    [booking_id] => 101
+    [new_status] => Pendings
+)
+Array
+(
+    [booking_id] => 98
+    [new_status] => Pendings
+)

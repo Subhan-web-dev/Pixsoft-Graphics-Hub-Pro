@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixsoft Graphics Hub</title>
+    <link rel="stylesheet" href="home-page.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+
+<body>
+
+    <!-- Navbar (loaded via fetch) -->
+    <div id="navbar-container"></div>
+
+    <script>
+        function initNavbar() {
+            console.log("Navbar Loaded!");
+
+            // Elements
+            const navbar = document.getElementById('navbar');
+            const hamburgerBtn = document.getElementById('hamburgerBtn');
+            const closeBtn = document.getElementById('closeBtn');
+            const mobileSidebar = document.getElementById('mobileSidebar');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+            let lastScrollTop = 0;
+
+            // Smart Sticky Navbar (Hides on Scroll Down, Shows on Scroll Up)
+            window.addEventListener('scroll', function () {
+                let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+                if (scrollTop > 10) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+
+                if (scrollTop > lastScrollTop && scrollTop > 100) {
+                    navbar.style.transform = 'translateY(-100%)';
+                } else {
+                    navbar.style.transform = 'translateY(0)';
+                }
+
+                lastScrollTop = scrollTop;
+            });
+
+            // Toggle Sidebar Function
+            function toggleSidebar() {
+                console.log("Toggling Sidebar!");
+                mobileSidebar.classList.toggle('active');
+                sidebarOverlay.classList.toggle('active');
+
+                if (mobileSidebar.classList.contains('active')) {
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    document.body.style.overflow = '';
+                }
+            }
+
+            // Attach Event Listeners
+            if (hamburgerBtn) {
+                hamburgerBtn.addEventListener('click', function () {
+                    console.log("Hamburger Clicked!");
+                    toggleSidebar();
+                });
+            }
+
+            if (closeBtn) {
+                closeBtn.addEventListener('click', function () {
+                    console.log("Close Button Clicked!");
+                    toggleSidebar();
+                });
+            }
+
+            if (sidebarOverlay) {
+                sidebarOverlay.addEventListener('click', function () {
+                    console.log("Overlay Clicked!");
+                    toggleSidebar();
+                });
+            }
+
+            // Close sidebar when clicking a menu item
+            document.querySelectorAll('.mobile-nav a').forEach(link => {
+                link.addEventListener('click', function () {
+                    console.log("Sidebar Link Clicked!");
+                    toggleSidebar();
+                });
+            });
+
+            // Close sidebar on window resize (if resized to desktop)
+            window.addEventListener('resize', function () {
+                if (window.innerWidth > 768 && mobileSidebar.classList.contains('active')) {
+                    toggleSidebar();
+                }
+            });
+        }
+
+        // Load Navbar and then Initialize it
+        fetch('navbar.php')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("navbar-container").innerHTML = data;
+                setTimeout(() => {
+                    initNavbar();  // Call the function after navbar is loaded
+                }, 500);
+            })
+            .catch(error => console.error("Error loading navbar:", error));
+    </script>
+
+    <!-- Navbar (loaded via fetch) -->
+
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="primary-text">PIX<span class="title-s">S</span>OFT</span>
+                <span class="secondary-text">GRAPHICS HUB</span>
+            </h1>
+            <p class="hero-description">Welcome to PIXSOFT GRAPHICS HUB, your one-stop destination for premium graphic
+                design, printing, and branding services. Our mission is to turn your ideas into stunning visual
+                realities.</p>
+            <div class="hero-buttons">
+                <a href="service-page.php" class="btn btn-outline">Our Services</a>
+                <a href="Login-Sign-Up.html" class="btn btn-outline">Get Started</a>
+            </div>
+        </div>
+        <div class="hero-stats">
+            <div class="stat-item">
+                <span class="stat-number">5+</span>
+                <span class="stat-label">Years Experience</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">500+</span>
+                <span class="stat-label">Projects Completed</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">400+</span>
+                <span class="stat-label">Happy Clients</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <h2 class="section-title">Key Services</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <img src="home-page-images/customize-computer.png" alt="Graphic Design">
+                    </div>
+                    <h3>Graphic Design</h3>
+                    <p>Innovative designs for businesses and individuals</p>
+                    <ul class="service-features">
+                        <li>Logo Design</li>
+                        <li>Brand Identity</li>
+                        <li>Marketing Materials</li>
+                        <li>Social Media Graphics</li>
+                    </ul>
+                    <a href="service-page.php" class="btn btn-secondary">Learn More</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <img src="home-page-images/print.png" alt="Printing Solutions">
+                    </div>
+                    <h3>Printing Solutions</h3>
+                    <p>High-quality digital and offset printing</p>
+                    <ul class="service-features">
+                        <li>Business Cards</li>
+                        <li>Brochures</li>
+                        <li>Banners</li>
+                        <li>Custom Printing</li>
+                    </ul>
+                    <a href="service-page.php" class="btn btn-secondary">Learn More</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <img src="home-page-images/money-check-edit.png" alt="Branding">
+                    </div>
+                    <h3>Branding</h3>
+                    <p>Complete branding solutions to enhance your identity</p>
+                    <ul class="service-features">
+                        <li>Brand Strategy</li>
+                        <li>Visual Identity</li>
+                        <li>Brand Guidelines</li>
+                        <li>Rebranding</li>
+                    </ul>
+                    <a href="service-page.php" class="btn btn-secondary">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">About Us</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p class="about-description">Founded in 2015, PIXSOFT GRAPHICS HUB has delivered cutting-edge design
+                        and printing services to over thousands of clients worldwide.</p>
+                    <div class="about-cards">
+                        <div class="about-card">
+                            <h3>Mission</h3>
+                            <p>To empower brands with innovative visual solutions that drive growth and success.</p>
+                        </div>
+                        <div class="about-card">
+                            <h3>Values</h3>
+                            <p>Quality, Creativity, and Sustainability guide everything we do.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blogs Section  -->
+    <!-- Blog Section -->
+    <section id="blog" class="blog">
+        <div class="container">
+            <h2 class="section-title">Latest Insights</h2>
+            <div class="blog-grid" id="blog-container">
+                <!-- Blog cards will be loaded dynamically here -->
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function loadBlogs() {
+            fetch("fetch_blogs.php")
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "success") {
+                        let blogHtml = "";
+                        data.blogs.forEach(blog => {
+                            blogHtml += `
+                        <article class="blog-card">
+                            <div class="blog-image">
+                                <img src="${blog.image}" alt="${blog.title}">
+                                <span class="blog-date">${new Date(blog.updated_at).toLocaleDateString()}</span>
+                            </div>
+                            <div class="blog-content">
+                                <h3>${blog.title}</h3>
+                                <p>${blog.description}</p>
+                                <a href="${blog.blog_link}" class="btn btn-text" target="_blank">Read More →</a>
+                            </div>
+                        </article>
+                    `;
+                        });
+                        document.getElementById("blog-container").innerHTML = blogHtml;
+                    } else {
+                        console.error("Failed to fetch blogs.");
+                    }
+                })
+                .catch(error => console.error("Error loading blogs:", error));
+        }
+
+        // Load blogs on page load
+        document.addEventListener("DOMContentLoaded", loadBlogs);
+    </script>
+
+    <!-- Blogs Section  -->
+
+    <!-- Newsletter Section -->
+    <!-- Newsletter Section -->
+    <section class="newsletter" style="background: #191919; padding: 40px 0;">
+        <div class="container">
+            <h2 class="section-title" style="color: white;">Stay Updated</h2>
+            <div class="newsletter-content">
+                <p style="color: white;">Subscribe to our newsletter for the latest design trends and company updates.
+                </p>
+                <form class="newsletter-form" id="newsletter-form">
+                    <input type="email" id="newsletter-email" placeholder="Enter your email" required>
+                    <button type="submit" id="subscribe-btn" class="btn btn-primary">
+                        Subscribe
+                    </button>
+                    <p id="newsletter-message" style="color: white; margin-top: 10px;"></p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <i class="fas fa-check-circle success-icon"></i>
+            <p>Thank you for subscribing!</p>
+        </div>
+    </div>
+
+    <style>
+        /* Modal Styling */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            color: black;
+            margin: 15% auto;
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .success-icon {
+            color: white;
+            font-size: 50px;
+            margin-bottom: 10px;
+        }
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        #subscribe-btn {
+            transition: 0.3s ease-in-out;
+        }
+    </style>
+
+    <script>
+        document.getElementById('newsletter-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            let email = document.getElementById('newsletter-email').value;
+            let messageBox = document.getElementById('newsletter-message');
+            let subscribeBtn = document.getElementById('subscribe-btn');
+            let modal = document.getElementById("success-modal");
+            let closeModal = document.getElementsByClassName("close")[0];
+
+            // Basic email validation
+            let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+            if (!email.match(emailPattern)) {
+                messageBox.innerHTML = "Please enter a valid email!";
+                messageBox.style.color = "red";
+                return;
+            }
+
+            // Send data using Fetch API
+            fetch('newsletter.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'email=' + encodeURIComponent(email)
+            })
+                .then(response => response.text())
+                .then(data => {
+                    if (data.includes("successful")) {
+                        // Change Subscribe button to a checkmark
+                        subscribeBtn.innerHTML = "<i class='fas fa-check-circle'></i>";
+                        subscribeBtn.style.backgroundColor = "green";
+                        subscribeBtn.disabled = true;
+
+                        // Show modal
+                        modal.style.display = "block";
+
+                        // Clear email input
+                        document.getElementById('newsletter-email').value = '';
+                    } else {
+                        messageBox.innerHTML = data;
+                        messageBox.style.color = "red";
+                    }
+                })
+                .catch(error => console.error("Error:", error));
+
+            // Close modal on clicking the close button
+            closeModal.onclick = function () {
+                modal.style.display = "none";
+            };
+
+            // Close modal on clicking outside
+            window.onclick = function (event) {
+                if (event.target === modal) {
+                    modal.style.display = "none";
+                }
+            };
+        });
+    </script>
+
+    <!-- Newsletter Section -->
+
+
+    <!-- FAQ Section  -->
+    <section class="faq-section">
+        <div class="faq-container">
+            <h2 class="faq-title">Frequently Asked Questions</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What services does PIXSOFT Graphics Hub offer?</span>
+                    <span class="icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    We provide professional graphic design, branding, website design, UI/UX, and digital marketing
+                    solutions.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>How can I book a service?</span>
+                    <span class="icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    You can book a service through our online booking system on our website. Select the service, fill in
+                    your details, and confirm the appointment.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Do you offer custom graphic design solutions?</span>
+                    <span class="icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    Yes! We create fully customized designs tailored to your brand's needs and identity.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What payment methods do you accept?</span>
+                    <span class="icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    We accept payments via credit/debit cards, PayPal, and bank transfers.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>How can I contact PIXSOFT for support?</span>
+                    <span class="icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    You can reach us through our Contact Us page, email, or by calling our support team.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Is there a refund policy for services?</span>
+                    <span class="icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    Yes, refunds are available based on our terms and conditions. Contact support for assistance.
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const faqItems = document.querySelectorAll(".faq-item");
+
+            faqItems.forEach(item => {
+                const question = item.querySelector(".faq-question");
+
+                question.addEventListener("click", function () {
+                    item.classList.toggle("active");
+                });
+            });
+        });
+    </script>
+
+
+    <!-- FAQ Section  -->
+
+    <!-- Footer  -->
+    <div id="footer-content"></div>
+
+    <script>
+        // Load navbar and footer
+        // $('#head-content').load('navbar.html');
+        $('#footer-content').load('footer.html');
+
+        // Page transition
+        document.addEventListener("DOMContentLoaded", function () {
+            document.body.classList.add("loaded");
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+
+    <!-- Webiste traffic Ajax -->
+    <script>
+        fetch('track_visit.php', { method: 'POST' })
+            .then(response => response.text())
+            .then(data => console.log('Visit tracked!'))
+            .catch(err => console.error('Tracking failed', err));
+    </script>
+
+    <!-- Webiste traffic Ajax -->
+
+</body>
+
+</html>
