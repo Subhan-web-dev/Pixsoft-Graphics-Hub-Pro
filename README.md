@@ -24,7 +24,7 @@ This project was created as a college mega-projet for final year academic mega p
 
 ## Setup Instructions
 
-1. Install XAMPP from [https://www.apachefriends.org](https://www.apachefriends.org)
+1. Install XAMPP 
 2. Clone or download this repository and place the project folder in `C:/xampp/htdocs/`
 3. Open XAMPP and start Apache and MySQL
 4. Visit `http://localhost/phpmyadmin` and create a database named `pixsoft_db`
